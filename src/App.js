@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Formik, Field, ErrorMessage } from 'formik'
+import { Formik, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
 
 
@@ -43,6 +43,20 @@ class App extends Component {
         <ErrorMessage name="social.twitter" />
         <br />
 
+        <FieldArray name="friends" placeholder="friends" render={arrayHelper => (
+          <div>
+            {
+              props.values.friends.map((item, index) => (
+                <div key={index}>
+                  <Field name={`friends.${index}`} />
+                </div>
+              ))
+            }
+          </div>
+        )} />
+
+        <ErrorMessage name="friends" />
+        <br />
         <button type="submit">click</button>
       </form>
     )
@@ -75,7 +89,11 @@ class App extends Component {
             social: {
               facebook: "",
               twitter: ""
-            }
+            },
+            friends: [
+              "hamada",
+              "mahmoud"
+            ]
           }}
           onSubmit={this.onSubmit}
           validationSchema={this.schema()}
